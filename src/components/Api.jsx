@@ -3,16 +3,18 @@ import { useState } from "react";
 function Api() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Fetch users from API
   const fetchUsers = async () => {
     setLoading(true);
+    setErrorMessage("");
     try {
       const response = await fetch("https://jsonplaceholder.typicode.com/users");
       const data = await response.json();
       setUsers(data.slice(0, 10));
     } catch (error) {
-      console.error("Failed to fetch users:", error);
+      setErrorMessage(error.message);
     } finally {
       setLoading(false);
     }
@@ -21,6 +23,7 @@ function Api() {
   // Clear users
   const clearUsers = () => {
     setUsers([]);
+    setErrorMessage("");
   };
 
   return (
@@ -35,6 +38,9 @@ function Api() {
 
       {/* Loading */}
       {loading && <p className="text-center text-gray-500 mb-4">Loading users...</p>}
+
+      {/* Error */}
+      {errorMessage && <p className="text-center text-red-500 mb-4">{errorMessage}</p>}
 
         {/* Users Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -56,11 +62,14 @@ function Api() {
                 <p className="text-gray-600">
                 <span className="font-medium">Website:</span> {user.website}
                 </p>
+                <p className="text-gray-600">
+                <span className="font-medium">City:</span> {user.address ? user.address.city : "N/A"}
+
+                </p>
             </div>
             ))}
         </div>
 
-      {/* No users message */}
       {!loading && users.length === 0 && (
         <p className="text-center text-gray-500 mt-4">No users to display. Click "Get Data" to load users.</p>
       )}
