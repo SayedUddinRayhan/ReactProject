@@ -46,6 +46,17 @@ function Navbar() {
             >
               API
             </NavLink>
+
+            <NavLink
+              to="/user/1"
+              className={({ isActive }) =>
+                `${baseLinkClasses} ${
+                  isActive ? "text-blue-600" : "text-gray-700 hover:text-blue-600"
+                }`
+              }
+            >
+              User
+            </NavLink>
           </div>
 
           {/* Mobile Menu Button */}
@@ -84,6 +95,18 @@ function Navbar() {
               }
             >
               API
+            </NavLink>
+
+            <NavLink
+              to="/user/1"
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) =>
+                `${baseLinkClasses} ${
+                  isActive ? "text-blue-600" : "text-gray-700 hover:text-blue-600"
+                }`
+              }
+            >
+              User
             </NavLink>
           </div>
         </div>
